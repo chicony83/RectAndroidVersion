@@ -1,0 +1,60 @@
+//класс для подсчета высоты информационного и игрового поля
+package com.example.rects;
+
+import android.util.Log;
+
+public class AreaSizes {
+
+    private static float widthDisplay;
+    private static float heightDisplay;
+
+    private static final float ONEHUNDREDPERCENT = 100;
+
+    private static final float HEIGHTINFORMATIONAREAPERCENT = 20;
+    private static final float HEIGHTBACKBUTTONAREAPERCENT = 10;
+
+    public static void sizeInformationArea() {
+        double percent = HEIGHTINFORMATIONAREAPERCENT;
+        SettingGame.setInformationAreaWidth((int) widthDisplay);     //ширина инфо поля
+//        Log.i("width_InformationArea", String.valueOf(SettingGame.getInformationAreaWidth()));
+
+        double informationAreaHeight = (heightDisplay /ONEHUNDREDPERCENT)*percent;    //высота инфо поля
+        SettingGame.setInformationAreaHeight((int) informationAreaHeight);
+//        Log.i("height_InformationArea", String.valueOf(SettingGame.getInformationAreaHeight()));
+    }
+
+    public static void sizeGameArea() {    }
+
+    public static void sizeBackButtonArea(){
+        float percent = HEIGHTBACKBUTTONAREAPERCENT;
+        SettingGame.setBackButtonAreaWidth((int) widthDisplay);
+        float backButtonAreaHeight = (heightDisplay /ONEHUNDREDPERCENT)*percent;
+        SettingGame.setBackButtonAreaHeight((int) backButtonAreaHeight);
+        Log.i("W/H BackButtonArea", SettingGame.getBackButtonAreaWidth() +" "+
+                SettingGame.getBackButtonAreaHeight());
+    }
+    public static void preparationCountSize(){      //
+        int widthGameArea = SettingGame.getPlayingAreaSquaresWidth();
+        int heightGameArea = SettingGame.getPlayingAreaSquaresHeight();
+
+        widthDisplay = SettingGame.getWidthDisplay();
+        heightDisplay = SettingGame.getHeightDisplay();
+
+        if (widthGameArea>heightGameArea){ //если ширина
+
+        }
+        if (widthGameArea<heightGameArea){
+
+        }
+        if (widthGameArea == heightGameArea){
+            //float sSOR = widthDisplay/widthGameArea;
+            float sSOR = (widthDisplay /widthGameArea);
+            SettingGame.setSideSizeOfRectangle((int) sSOR);
+        }
+
+
+
+
+    }
+
+}

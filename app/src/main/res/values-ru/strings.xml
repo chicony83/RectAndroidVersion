@@ -1,0 +1,15 @@
+<resources>
+    <string name="game_time">время игры</string>
+    <string name="blocks_left">блоков осталось</string>
+    <string name="next_color">следующий цвет</string>
+    <string name="moves_done">сделано ходов</string>
+    <string name="move_back">ход назад, осталось</string>
+    <string name="how_to_play">как играть?</string>
+    <string name="many_moves_left">ходов назад</string>
+    <string name="one_move_left">ход назад</string>
+
+    <string name="i_need_play">
+        я всё понял/n
+        хочу играть
+    </string>
+</resources>

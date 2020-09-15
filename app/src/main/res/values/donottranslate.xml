@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rect\'s</string>
+
+    <string name="start_game">start game</string>
+
+
+    <string name="for_kids_level">For Kids</string>
+    <string name="very_easy_level">Very Easy</string>
+    <string name="easy_level">Easy</string>
+    <string name="medium_level">Medium</string>
+    <string name="hard_level">Hard</string>
+    <string name="very_hard_level">Very Hard</string>
+    <string name="impossible_level">IMPOSSIBLE</string>
+
+    <string name="game_over">GAME OVER</string>
+    <string name="game_win">YOU WIN</string>
+
+    <string name="version">0.1.8.9</string>
+
+</resources>

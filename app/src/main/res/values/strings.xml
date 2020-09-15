@@ -1,0 +1,16 @@
+<resources>
+    <string name="game_time">game time</string>
+    <string name="blocks_left">blocks left</string>
+    <string name="next_color">next color</string>
+    <string name="moves_done">moves done</string>
+    <string name="move_back">move back</string>
+    <string name="how_to_play">how to play?</string>
+    <string name="many_moves_left">moves left</string>
+    <string name="one_move_left">move left</string>
+
+    <string name="i_need_play">
+        I all understand /n
+        and need play
+    </string>
+
+</resources>
