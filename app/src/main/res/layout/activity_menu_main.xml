@@ -4,55 +4,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_black"
-    android:screenOrientation="landscape"
+    android:background="@drawable/menu_background"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
     tools:context=".MainMenuActivity">
 
-    <Button
-        style="@style/StartGameButton"
-        android:id="@+id/startGameButton"
+    <com.example.rects.ui.view.PuzzleMarkView
+        android:id="@+id/puzzleMark"
         android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:onClick="onClickSelectLevel"
-        android:text="@string/start_game"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="112dp"
+        android:contentDescription="@string/menu_logo_description"
+        app:layout_constraintBottom_toTopOf="@id/menuTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.303"
-        />
+        app:layout_constraintVertical_chainStyle="packed" />
 
-    <Button
-        style="@style/HowToPlayButton"
-        android:id="@+id/startHowToPlayButton"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:onClick="onClickHowToPlay"
-        android:text="@string/how_to_play"
-        android:textAppearance="@android:style/TextAppearance.Large"
+    <TextView
+        android:id="@+id/menuTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-light"
+        android:letterSpacing="0.12"
+        android:text="@string/menu_title"
+        android:textColor="@color/menu_text_primary"
+        android:textSize="44sp"
+        app:layout_constraintBottom_toTopOf="@id/menuSubtitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/puzzleMark" />
+
+    <TextView
+        android:id="@+id/menuSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:text="@string/menu_subtitle"
+        android:textColor="@color/menu_text_secondary"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/menuActions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menuTitle" />
+
+    <LinearLayout
+        android:id="@+id/menuActions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startGameButton" />
+        app:layout_constraintTop_toBottomOf="@id/menuSubtitle"
+        app:layout_constraintWidth_max="340dp">
+
+        <Button
+            android:id="@+id/startGameButton"
+            style="@style/MenuPrimaryButton"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:onClick="onClickSelectLevel"
+            android:text="@string/start_game" />
+
+        <Button
+            android:id="@+id/startHowToPlayButton"
+            style="@style/MenuSecondaryButton"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="14dp"
+            android:onClick="onClickHowToPlay"
+            android:text="@string/how_to_play" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/version"
-        android:layout_width="52dp"
-        android:layout_height="18dp"
-        android:text="@string/version"
-        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/menu_text_muted"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.947"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.963" />
-
+        tools:text="v0.1.8.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

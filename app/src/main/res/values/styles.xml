@@ -25,4 +25,20 @@
 
     </style>
 
+    <style name="MenuPrimaryButton" parent="android:style/Widget.Button">
+        <item name="android:background">@drawable/menu_primary_button</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">#17201F</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="MenuSecondaryButton" parent="android:style/Widget.Button">
+        <item name="android:background">@drawable/menu_secondary_button</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/menu_text_primary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

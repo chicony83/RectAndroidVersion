@@ -7,6 +7,11 @@
     <string name="how_to_play">Как играть?</string>
     <string name="many_moves_left">ходов назад</string>
     <string name="one_move_left">ход назад</string>
+    <string name="start_game">Играть</string>
+    <string name="menu_title">RECT X</string>
+    <string name="menu_subtitle">Спокойная цветная головоломка</string>
+    <string name="menu_logo_description">Знак из цветных блоков головоломки</string>
+    <string name="version_format">v%1$s</string>
 
     <string name="i_need_play">
         Я всё понял\nХочу играть

@@ -18,6 +18,10 @@
     <color name="silver">#bdbfc0</color>
     <color name="gray">#717973</color>
 
+    <color name="menu_text_primary">#EEF2F4</color>
+    <color name="menu_text_secondary">#A5B0BA</color>
+    <color name="menu_text_muted">#697783</color>
+
 
 
 
