@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LevelCardView">
+        <attr name="levelTitle" format="string" />
+        <attr name="levelSubtitle" format="string" />
+        <attr name="levelAccent" format="color" />
+        <attr name="levelDanger" format="boolean" />
+    </declare-styleable>
+</resources>

@@ -12,6 +12,23 @@
     <string name="menu_subtitle">Спокойная цветная головоломка</string>
     <string name="menu_logo_description">Знак из цветных блоков головоломки</string>
     <string name="version_format">v%1$s</string>
+    <string name="back">Назад</string>
+    <string name="select_level_title">Выбери сложность</string>
+    <string name="select_level_subtitle">Начни спокойно или брось себе вызов</string>
+    <string name="for_kids_level">Для детей</string>
+    <string name="for_kids_level_description">3 цвета · маленькое поле</string>
+    <string name="very_easy_level">Очень легко</string>
+    <string name="very_easy_level_description">3 цвета · больше блоков</string>
+    <string name="easy_level">Легко</string>
+    <string name="easy_level_description">4 цвета · немного плотнее</string>
+    <string name="medium_level">Средне</string>
+    <string name="medium_level_description">4 цвета · ровный вызов</string>
+    <string name="hard_level">Сложно</string>
+    <string name="hard_level_description">4 цвета · плотное поле</string>
+    <string name="very_hard_level">Очень сложно</string>
+    <string name="very_hard_level_description">5 цветов · мало права на ошибку</string>
+    <string name="impossible_level">Невозможно</string>
+    <string name="impossible_level_description">6 цветов · максимальная плотность</string>
 
     <string name="i_need_play">
         Я всё понял\nХочу играть

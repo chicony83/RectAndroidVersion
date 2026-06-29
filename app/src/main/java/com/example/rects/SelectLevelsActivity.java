@@ -46,6 +46,11 @@ public class SelectLevelsActivity extends FullscreenActivity {
         int n = 7;
         onClickIntent(n);
     }
+
+    public void onClickBack(View view) {
+        finish();
+    }
+
     private void onClickIntent(int level){
         Intent intent = new Intent(this,GameActivity.class);
         SettingCurrentGame.setCurrentNumLVL(level);

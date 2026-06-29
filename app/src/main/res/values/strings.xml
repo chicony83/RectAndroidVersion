@@ -12,6 +12,23 @@
     <string name="menu_subtitle">A calm color puzzle</string>
     <string name="menu_logo_description">A mark made of colored puzzle blocks</string>
     <string name="version_format">v%1$s</string>
+    <string name="back">Back</string>
+    <string name="select_level_title">Choose difficulty</string>
+    <string name="select_level_subtitle">Start gently or give yourself a challenge</string>
+    <string name="for_kids_level">For kids</string>
+    <string name="for_kids_level_description">3 colors · a small field</string>
+    <string name="very_easy_level">Very easy</string>
+    <string name="very_easy_level_description">3 colors · more blocks</string>
+    <string name="easy_level">Easy</string>
+    <string name="easy_level_description">4 colors · a little denser</string>
+    <string name="medium_level">Medium</string>
+    <string name="medium_level_description">4 colors · a balanced challenge</string>
+    <string name="hard_level">Hard</string>
+    <string name="hard_level_description">4 colors · a dense field</string>
+    <string name="very_hard_level">Very hard</string>
+    <string name="very_hard_level_description">5 colors · little room for error</string>
+    <string name="impossible_level">Impossible</string>
+    <string name="impossible_level_description">6 colors · maximum density</string>
 
     <string name="i_need_play">
         I understand everything\nand want to play
