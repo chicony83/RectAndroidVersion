@@ -1,5 +1,8 @@
 package com.example.rects;
 
+import com.example.rects.game.config.SettingCurrentGame;
+import com.example.rects.game.config.SettingGame;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -87,6 +90,12 @@ public abstract class Draw extends Context {
     //----------рисование игрового пространства во время игры----------
 
     public static void onDrawGameArea(Canvas canvas) {
+        synchronized (AreaForGame.getStateLock()) {
+            onDrawGameAreaLocked(canvas);
+        }
+    }
+
+    private static void onDrawGameAreaLocked(Canvas canvas) {
 
         numbersOfMovesBack = Information.getNumbersOfMovesBack();
 

@@ -1,5 +1,7 @@
 package com.example.rects;
 
+import com.example.rects.game.config.SettingGame;
+
 public class AreaForClearing {
 
     public static final int width = SettingGame.getWIDTH();
@@ -15,8 +17,8 @@ public class AreaForClearing {
     public static void cleanAreaForClearing(){ //обнулить уровень
         int x;
         int y;
-        for (y = 0; y < width; y++) {
-            for (x = 0; x < height; x++) {
+        for (y = 0; y < height; y++) {
+            for (x = 0; x < width; x++) {
                 areaForClearing[x][y] = 0;
             }
         }

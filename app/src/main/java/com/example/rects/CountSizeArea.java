@@ -1,6 +1,8 @@
 //класс для подсчета высоты информационного и игрового поля
 package com.example.rects;
 
+import com.example.rects.game.config.SettingGame;
+
 import android.util.Log;
 
 public class CountSizeArea {

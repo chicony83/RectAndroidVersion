@@ -1,15 +1,18 @@
 package com.example.rects;
 
+import com.example.rects.game.config.SettingCurrentGame;
+import com.example.rects.game.config.SettingGame;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class ListenersGame {
 
-    private static boolean isLinePressed = false;
+    private static volatile boolean isLinePressed = false;
 
-    private static int xPressed;
-    private static int yPressed;
+    private static volatile int xPressed;
+    private static volatile int yPressed;
 
     public static View.OnTouchListener handleTouch = new View.OnTouchListener() {     //слушатель игрового поля
 
@@ -85,12 +88,16 @@ public class ListenersGame {
                                     if (x > rectSize & x < ((rectSize * areaWidth) - rectSize)) {
                                         if (y > heightInfoArea & y < (rectSize + heightInfoArea)) {                                     //нажатие сверху
                                             xMove = x;
-                                            new Move().moveUpToDown(xMove);
+                                            synchronized (AreaForGame.getStateLock()) {
+                                                new Move().moveUpToDown(xMove);
+                                            }
                                         }
                                         if (y > (((rectSize * areaHeight) - rectSize) + heightInfoArea) &
                                                 y < ((rectSize * areaHeight) + heightInfoArea)) {
                                             xMove = x;
-                                            new Move().moveDownToUp(xMove);
+                                            synchronized (AreaForGame.getStateLock()) {
+                                                new Move().moveDownToUp(xMove);
+                                            }
                                         }
                                     }
                                     if (y > (rectSize + heightInfoArea) &
@@ -98,12 +105,16 @@ public class ListenersGame {
 
                                         if (x > 0 & x < rectSize) {
                                             yMove = y - heightInfoArea;
-                                            new Move().moveLeftToRight(yMove);
+                                            synchronized (AreaForGame.getStateLock()) {
+                                                new Move().moveLeftToRight(yMove);
+                                            }
 
                                         }
                                         if (x > (rectSize * areaWidth) - rectSize & x < rectSize * areaWidth) {
                                             yMove = y - heightInfoArea;
-                                            new Move().moveRightToLeft(yMove);
+                                            synchronized (AreaForGame.getStateLock()) {
+                                                new Move().moveRightToLeft(yMove);
+                                            }
                                         }
                                     }
                                     break;
@@ -123,9 +134,10 @@ public class ListenersGame {
                                             break;
                                         case MotionEvent.ACTION_UP:
                                             Log.i("TAG_buttonBack", "touched up(" + x + ", " + y + ")");
-                                            AreaForGame.returnArea();
-                                            Information.incNumbersOfMovesBack();
-                                            MoveBack.setBackwardAllowed(false);
+                                            synchronized (AreaForGame.getStateLock()) {
+                                                AreaForGame.returnArea();
+                                                Information.incNumbersOfMovesBack();
+                                            }
                                             break;
                                     }
                                 }

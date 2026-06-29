@@ -1,6 +1,7 @@
 package com.example.rects;
 
-import android.app.Activity;
+import com.example.rects.game.config.SettingGame;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,7 +13,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 
-public class HowToPlayActivity extends Activity {
+public class HowToPlayActivity extends FullscreenActivity {
     public static int bitmapInt = 1;
     public static boolean runIntent = false;
     static int widthDisplay;
@@ -35,7 +36,7 @@ public class HowToPlayActivity extends Activity {
     Bitmap bitmap;
 
 
-    String iNeedPlay = " я всё понял хочу играть";
+    String iNeedPlay;
 
 
     float x1HowToBitmap = 0;
@@ -54,6 +55,7 @@ public class HowToPlayActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        iNeedPlay = getString(R.string.i_need_play);
         howToPlayView hTPV = new howToPlayView(this);
 
         ListenersHowTo listenersHowTo = new ListenersHowTo();

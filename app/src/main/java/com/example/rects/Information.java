@@ -1,5 +1,7 @@
 package com.example.rects;
 
+import com.example.rects.game.config.SettingGame;
+
 import android.content.res.Resources;
 
 public class Information {
@@ -136,6 +138,11 @@ public class Information {
     public static void addMove(){
         movesDoneValue++;
 //        Log.i(" TAG ", "movesDoneValue"+ movesDoneValue);
+    }
+    public static void removeMove() {
+        if (movesDoneValue > 0) {
+            movesDoneValue--;
+        }
     }
     public static int getMovesDoneValue() {
         return movesDoneValue;

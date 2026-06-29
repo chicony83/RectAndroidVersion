@@ -4,14 +4,15 @@ import android.util.Log;
 
 public class CleaningAfterMove {
     private static boolean needClearing = false;
+    private static boolean movePending = false;
 
     public static void clearing() {
 //        Log.i("TAG", "clearing... " );
         int x, y;
 //        AreaForGame.nextColor();
         Find.setZeroInCellsForClean();
-        for (y = 1; y < AreaForClearing.width - 1; y++) {
-            for (x = 1; x < AreaForClearing.height - 1; x++) {
+        for (y = 1; y < AreaForClearing.height - 1; y++) {
+            for (x = 1; x < AreaForClearing.width - 1; x++) {
 //                Log.i("TAG", "finding... x" + x + " y " + y );
                 if (AreaForClearing.getAreaForClearing(x, y) > 0) {
 //                    Log.i("TAG", "clearing...finding... x" + x + " y " + y );
@@ -26,13 +27,25 @@ public class CleaningAfterMove {
         needClearing = nC;
     }
 
-    public static void isNeedClearing() {
-        Log.i("TAG", "isNeedClearing " + needClearing);
-        if (needClearing == true) {
-            needClearing = false;
+    public static void scheduleMoveResolution() {
+        movePending = true;
+    }
 
-            Log.i("TAG", "isNeedClearing " + needClearing);
-            Log.i("TAG", "isNeedClearing нужно очистить");
+    public static void cancelPendingMove() {
+        movePending = false;
+        needClearing = false;
+        AreaForClearing.cleanAreaForClearing();
+        Find.setZeroInCellsForClean();
+    }
+
+    public static void isNeedClearing() {
+        if (!movePending) {
+            return;
+        }
+
+        movePending = false;
+        if (needClearing) {
+            needClearing = false;
             clearing();
         }
         Move.actionAfterMove();

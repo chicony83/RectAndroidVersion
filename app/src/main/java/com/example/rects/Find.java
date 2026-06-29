@@ -1,5 +1,7 @@
 package com.example.rects;
 
+import com.example.rects.game.config.SettingGame;
+
 public class Find {
 
     private static boolean firstCell;
@@ -97,8 +99,8 @@ public class Find {
 
         firstCell = true;
 
-        for (int j = 1; j < areaWidth - 1; j++) {                       //поиск в низ
-            for (int i = 1; i < areaHeight - 1; i++) {                  //в право
+        for (int j = 1; j < areaHeight - 1; j++) {                       //поиск в низ
+            for (int i = 1; i < areaWidth - 1; i++) {                  //в право
                 if (AreaForClearing.getAreaForClearing(i, j) == 1) {
                     if (firstCell == true) {
                         cellsForClean++;
@@ -109,8 +111,8 @@ public class Find {
             }
         }
 
-        for (int j = 1; j < areaWidth - 1; j++) {                       //поиск в низ
-            for (int i = areaHeight-1; i > 0; i--) {                    //в лево
+        for (int j = 1; j < areaHeight - 1; j++) {                       //поиск в низ
+            for (int i = areaWidth - 2; i > 0; i--) {                    //в лево
                 if (AreaForClearing.getAreaForClearing(i, j) == 1) {
                     if (firstCell == true) {
                         cellsForClean++;
@@ -120,8 +122,8 @@ public class Find {
                 }
             }
         }
-        for (int j = 1; j < areaWidth - 1; j++) {                       //поиск в верх
-            for (int i = 1; i < areaHeight - 1; i++) {                  //в лево
+        for (int j = 1; j < areaHeight - 1; j++) {                       //поиск в верх
+            for (int i = 1; i < areaWidth - 1; i++) {                  //в лево
                 if (AreaForClearing.getAreaForClearing(i, j) == 1) {
                     if (firstCell == true) {
                         cellsForClean++;
@@ -132,8 +134,8 @@ public class Find {
             }
         }
 
-        for (int j = 1; j < areaWidth - 1; j++) {                       //поиск в верх
-            for (int i = 1; i < areaHeight - 1; i++) {                  //в право
+        for (int j = 1; j < areaHeight - 1; j++) {                       //поиск в верх
+            for (int i = 1; i < areaWidth - 1; i++) {                  //в право
                 if (AreaForClearing.getAreaForClearing(i, j) == 1) {
                     if (firstCell == true) {
                         cellsForClean++;

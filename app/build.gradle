@@ -1,14 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
-    signingConfigs {
-        release {
-            storeFile file('/home/roman/key/key.jks')
-            storePassword 'Cdls2589'
-            keyAlias = 'MyAaps'
-            keyPassword 'Cdls2589'
-        }
-    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -30,6 +23,7 @@ android {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

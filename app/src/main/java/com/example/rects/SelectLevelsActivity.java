@@ -1,20 +1,16 @@
 package com.example.rects;
 
-import android.app.Activity;
+import com.example.rects.game.config.SettingCurrentGame;
+
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 
-public class SelectLevelsActivity extends Activity {
-    int numLevel;
+public class SelectLevelsActivity extends FullscreenActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levels_select);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     public void onClickSelectForKidsLevel(View view) {
@@ -50,11 +46,10 @@ public class SelectLevelsActivity extends Activity {
         int n = 7;
         onClickIntent(n);
     }
-    private void onClickIntent(int n){
+    private void onClickIntent(int level){
         Intent intent = new Intent(this,GameActivity.class);
-        numLevel = n;
-        SettingCurrentGame.setCurrentNumLVL(n);
-        intent.putExtra("NUM_LEVEL",numLevel);
+        SettingCurrentGame.setCurrentNumLVL(level);
+        intent.putExtra(GameActivity.EXTRA_LEVEL, level);
         startActivity(intent);
     }
 

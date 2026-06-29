@@ -1,5 +1,9 @@
 package com.example.rects;
 
+import com.example.rects.game.config.SettingCurrentGame;
+import com.example.rects.game.config.SettingGame;
+import com.example.rects.game.config.SettingLevels;
+
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.util.Log;
@@ -7,8 +11,11 @@ import android.util.Log;
 import java.util.Random;
 
 public class AreaForGame {
-    private static int widthGameArea = SettingGame.getWIDTH();      //ширина игрового поля
-    private static int heightGameArea = SettingGame.getHEIGHT();    //высота игрвого поля
+    private static final Random RANDOM = new Random();
+    private static final Object STATE_LOCK = new Object();
+
+    private static final int widthGameArea = SettingGame.getWIDTH();      //ширина игрового поля
+    private static final int heightGameArea = SettingGame.getHEIGHT();    //высота игрвого поля
 
     private static int nextColor = SettingLevels.getCurrentMaxColor();                                   //следующий цвет
     private static int backNextColor;
@@ -45,15 +52,16 @@ public class AreaForGame {
         return gameArea[x][y];
     }
 
+    public static Object getStateLock() {
+        return STATE_LOCK;
+    }
+
     public static void setGameArea(int x,int y,int c){
         gameArea[x][y] = c;
     }
 
     public static void ifThereAreMoves() {              //есть ли еще ходы
         int c = 0;
-        Log.i("TAG", "widthGameArea: " + widthGameArea );
-        Log.i("TAG", "heightGameArea: " + heightGameArea );
-
         for(int x1 = 1; x1 < (widthGameArea - 1) ; x1++){
             if(gameArea[x1][1] != 0) {                  //проверка верхней линии
                 c++;
@@ -70,22 +78,15 @@ public class AreaForGame {
                 c++;
             }
         }
-        Log.i("TAG", "setGameLoose: " + c );
-        Log.i("TAG", "cellsToLoose: " + cellsToLoose );
-
-        if (c==cellsToLoose){
-            SettingCurrentGame.setGameLoose(true);
-            Log.i("TAG", "setGameLoose: true" );
-        }
+        SettingCurrentGame.setGameLoose(c >= cellsToLoose);
     }
 
     public void newCleanArea(){ //обнулить уровень
         int x;
         int y;
-        for (y = 0; y < widthGameArea; y++) {
-            for (x = 0; x < heightGameArea; x++) {
+        for (y = 0; y < heightGameArea; y++) {
+            for (x = 0; x < widthGameArea; x++) {
                 gameArea[x][y] = nullColor;
-                Log.i("TAG",String.valueOf(nullColor));
             }
         }
     }
@@ -117,10 +118,9 @@ public class AreaForGame {
 //        Log.i(" space ", String.valueOf(space));
 
         //значения отвечают за цвета на поле
-        for (ySpace = space; ySpace < widthGameArea - space; ySpace++){
-            for (xSpace = space; xSpace < heightGameArea - space; xSpace++) {
-                Random r = new Random();
-                int randomNumColor = r.nextInt(maxColor+1);
+        for (ySpace = space; ySpace < heightGameArea - space; ySpace++){
+            for (xSpace = space; xSpace < widthGameArea - space; xSpace++) {
+                int randomNumColor = RANDOM.nextInt(maxColor + 1);
 //                Log.i(" rectColor ", String.valueOf(randomNumColor));
                 setColorInRectGameArea(xSpace,ySpace,randomNumColor);
             }
@@ -179,9 +179,7 @@ public class AreaForGame {
         Log.i("nextColorText", String.valueOf(nextColor));
     }
     private static int randomColor(){
-        Random r = new Random();
-        int rC = r.nextInt(maxColor)+1;
-        return rC;
+        return RANDOM.nextInt(maxColor) + 1;
     }
 
     public static void countHowManyRectanglesToClear(){
@@ -204,7 +202,7 @@ public class AreaForGame {
                 moveBackArea[x][y] = gameArea[x][y];
             }
         }
-        Log.i("TAG", "moveBackArea:" + moveBackArea[1][0]);
+        backNextColor = nextColor;
     }
 
     public static void returnArea(){                    //вернуть ход
@@ -213,6 +211,12 @@ public class AreaForGame {
                 gameArea[x][y] = moveBackArea[x][y];
             }
         }
+        nextColor = backNextColor;
+        CleaningAfterMove.cancelPendingMove();
+        Information.removeMove();
+        countHowManyRectanglesToClear();
+        AreaForGrayTargetLine.grayLineSearch();
+        ifThereAreMoves();
         MoveBack.setBackwardAllowed(false);             //сообщает что ход назад выполнен
     }
 

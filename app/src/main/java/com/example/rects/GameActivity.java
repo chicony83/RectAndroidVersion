@@ -1,24 +1,26 @@
 package com.example.rects;
 
-import android.app.Activity;
-import android.content.pm.ActivityInfo;
+import com.example.rects.game.config.SettingCurrentGame;
+import com.example.rects.game.config.SettingGame;
+import com.example.rects.game.config.SettingLevels;
+
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
-import android.view.WindowManager;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class GameActivity extends Activity {
+public class GameActivity extends FullscreenActivity {
 
     private long prevRedrawTime;
 
-    private final int REDRAW_TIME = 5;
+    public static final String EXTRA_LEVEL = "com.example.rects.extra.LEVEL";
+
+    private static final int FRAME_INTERVAL_MS = 16;
     private static final int CLEARING_TIME = 100;
 
     AreaForGame areaForGame = new AreaForGame();
@@ -37,11 +39,8 @@ public class GameActivity extends Activity {
         drawView.setOnTouchListener(listenersGameArea.handleTouch);
 
         //настройка активности
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         //настройка уровней
-        numLevel = getIntent().getIntExtra("NUM_LEVEL", 3);
+        numLevel = getIntent().getIntExtra(EXTRA_LEVEL, 3);
         SettingLevels.setCurrentSettingLevel(numLevel);
 
         //вспомогательная строка чтобы узнать что получили из интента
@@ -138,21 +137,26 @@ public class GameActivity extends Activity {
 
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {    //при уничтожении потока
+            if (drawThread == null) {
+                return;
+            }
             boolean retry = true;
             drawThread.setRunning(false);
             while (retry) {
                 try {
                     drawThread.join();
                     retry = false;
-                } catch (InterruptedException e) {              //сущий пустяк
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    retry = false;
                 }
             }
         }
 
         class DrawThread extends Thread {                       //запускаем отдельный поток рисования
 
-            private boolean running = false;                    //для проверки запущен ли топок
-            private SurfaceHolder surfaceHolder;
+            private volatile boolean running;
+            private final SurfaceHolder surfaceHolder;
 
             public DrawThread(SurfaceHolder surfaceHolder) {    //переопределение потока рисования
                 this.surfaceHolder = surfaceHolder;
@@ -165,8 +169,6 @@ public class GameActivity extends Activity {
 
             @Override
             public void run() {                                 //предопределенный метод обработчика
-                int i = 10;                                     //потока
-
                 Canvas canvas;
 
                 while (running) {
@@ -175,8 +177,15 @@ public class GameActivity extends Activity {
                     long clearingTime = curTime - Move.getMoveTime();
                     Draw.setFirstDraw(true);
 
-                    if (elapsedTime < REDRAW_TIME) // проверяем прошло ли столько времени
+                    if (elapsedTime < FRAME_INTERVAL_MS) {
+                        try {
+                            Thread.sleep(FRAME_INTERVAL_MS - elapsedTime);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            return;
+                        }
                         continue;
+                    }
                     canvas = null;
                     try {
 
@@ -185,18 +194,17 @@ public class GameActivity extends Activity {
 
                         if (canvas == null)
                             continue;
-                        i++;                                            //счетчик
-                        Log.i("TAG", "counter " + i);
-
                         if (clearingTime > CLEARING_TIME) {         //проверяем прошло ли время для очистки
-                            CleaningAfterMove.isNeedClearing();
+                            synchronized (AreaForGame.getStateLock()) {
+                                CleaningAfterMove.isNeedClearing();
+                            }
                         }
-                        AreaForGame.ifThereAreMoves();
-
                         Draw.onDrawGameArea(canvas);                //перерисовываем игровой уровень
 
                         if (Information.getHowManyRectanglesToClear() <= 0) {       //когда уровень очищен
-                            new NextLevel();
+                            synchronized (AreaForGame.getStateLock()) {
+                                new NextLevel();
+                            }
                         }
                     } finally {
                         if (canvas != null) {

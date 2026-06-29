@@ -1,5 +1,7 @@
 package com.example.rects;
 
+import com.example.rects.game.config.SettingGame;
+
 public class AreaForGrayTargetLine {
     private static int widthGameArea = SettingGame.getWIDTH();      //ширина игрового поля
     private static int heightGameArea = SettingGame.getHEIGHT();    //высота игрвого поля

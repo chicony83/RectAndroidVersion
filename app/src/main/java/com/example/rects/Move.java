@@ -1,5 +1,7 @@
 package com.example.rects;
 
+import com.example.rects.game.config.SettingGame;
+
 public class Move {
     int width = SettingGame.getWIDTH();
     int height = SettingGame.getHEIGHT();
@@ -8,8 +10,6 @@ public class Move {
     private static long moveTime;                           //время хода
 
     public void moveUpToDown(int x){
-
-        Move.actionBeforeMove();
 
         x = x/rectSize;
         int newI = 1;
@@ -28,6 +28,7 @@ public class Move {
                         forSetY = 0;
 
 
+                        Move.actionBeforeMove();
                         Move.actionMove(x,y,c,forSetX,forSetY);
 
                         new Find();
@@ -40,7 +41,6 @@ public class Move {
     }
 
     public void moveDownToUp(int x) {
-        Move.actionBeforeMove();
         x = x/rectSize;
         int newI = SettingGame.getHEIGHT()-2;
         int h = SettingGame.getHEIGHT()-2;
@@ -57,6 +57,7 @@ public class Move {
                         forSetX = x;
                         forSetY = height - 1;
 
+                        Move.actionBeforeMove();
                         Move.actionMove(x,y,c,forSetX,forSetY);
                         new Find();
                         break A;
@@ -67,8 +68,6 @@ public class Move {
     }
 
     public void moveLeftToRight(int y) {
-
-        Move.actionBeforeMove();
 
         y = y/rectSize;
         int newI = 1;
@@ -86,6 +85,7 @@ public class Move {
                         forSetX = 0;
                         forSetY = y;
 
+                        Move.actionBeforeMove();
                         Move.actionMove(x,y,c,forSetX,forSetY);
                         new Find();
                         break A;
@@ -97,8 +97,6 @@ public class Move {
 
 
     public void moveRightToLeft(int y) {
-
-        Move.actionBeforeMove();
 
         y = y/rectSize;
         int newI = SettingGame.getWIDTH() - 2 ;
@@ -113,9 +111,10 @@ public class Move {
                     if (AreaForGame.getArea(newI,y)>0){
                         c = AreaForGame.getArea((width) - 1 , y );
                         x = newI + 1;
-                        forSetX = height-1;
+                        forSetX = width-1;
                         forSetY = y;
 
+                        Move.actionBeforeMove();
                         Move.actionMove(x,y,c,forSetX,forSetY);
 
                         new Find();
@@ -140,6 +139,7 @@ public class Move {
         AreaForClearing.setLastMove(x, y);              //указываем куда мы сделали ход
         Information.addMove();
         MoveBack.setBackwardAllowed(true);
+        CleaningAfterMove.scheduleMoveResolution();
 
 
     }
@@ -147,6 +147,7 @@ public class Move {
         AreaForClearing.cleanAreaForClearing();
         AreaForGame.countHowManyRectanglesToClear();
         AreaForGrayTargetLine.grayLineSearch();
+        AreaForGame.ifThereAreMoves();
     }
 
     public static long getMoveTime() {
