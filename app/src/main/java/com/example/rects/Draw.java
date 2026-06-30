@@ -7,6 +7,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.util.Log;
 
 import static android.graphics.Color.argb;
@@ -32,11 +34,18 @@ public abstract class Draw extends Context {
     private static int violetGray = Colors.VIOLETgRAY;
     private static int cyanGray = Colors.CYANgRAY;
 
-    private static int splashScreenGray = Color.GRAY;
+    private static int splashScreenGray = Colors.BACKGROUND;
 
     private static int silver = Colors.SILVER;
 
     private static int background = Colors.BACKGROUND;
+
+    private static final int HUD_CARD = Color.rgb(20, 31, 42);
+    private static final int HUD_BORDER = Color.rgb(42, 57, 70);
+    private static final int TEXT_PRIMARY = Color.rgb(238, 242, 244);
+    private static final int TEXT_SECONDARY = Color.rgb(165, 176, 186);
+    private static final int TEXT_MUTED = Color.rgb(105, 119, 131);
+    private static final RectF SHAPE = new RectF();
 
     private static int widthScreen = SettingGame.getWidthDisplay();
     private static int heightScreen = SettingGame.getHeightDisplay();
@@ -90,9 +99,7 @@ public abstract class Draw extends Context {
     //----------рисование игрового пространства во время игры----------
 
     public static void onDrawGameArea(Canvas canvas) {
-        synchronized (AreaForGame.getStateLock()) {
-            onDrawGameAreaLocked(canvas);
-        }
+        onDrawGameAreaLocked(canvas);
     }
 
     private static void onDrawGameAreaLocked(Canvas canvas) {
@@ -116,9 +123,6 @@ public abstract class Draw extends Context {
 
         String gameOver = "GAME OVER";
 
-        double movesDoneTextX;
-        double movesDoneTextY;
-
         double gameOverTextX;
         double gameOverTextY;
 
@@ -130,18 +134,10 @@ public abstract class Draw extends Context {
         drawBackground(canvas);
 //        Log.i("TAG", "countHowManyRectanglesToClear" + Information.getHowManyRectanglesToClear());
 //---------рисование поля следующего цвета------
-        drawNextColorArea(canvas);
+        drawHud(canvas);
 //------------отображение текста "блоков осталось (число)"
-        drawBlockLeftArea(canvas);
 
 //------------отображение текста "ходов сделано (число)---------
-        movesDoneTextX = x1NextCol * 2;
-        movesDoneTextY = (y2NextCol * 3) - (y2NextCol / 4);
-
-        movesDoneText = movesDoneText + " " + Information.getMovesDoneValue();
-        canvas.drawText(movesDoneText, (float) movesDoneTextX, (float) movesDoneTextY, p);
-
-        drawMap(canvas);
 //------------рисование игрового поля-------------
         int xPressed = ListenersGame.getXPressed();
         int yPressed = ListenersGame.getYPressed();
@@ -224,6 +220,59 @@ public abstract class Draw extends Context {
         if (!Information.isIsGameAreaDrawable()) {
             startLevelSplashScreen(canvas, percentDraw);
         }
+    }
+
+    private static void drawHud(Canvas canvas) {
+        float margin = widthScreen * 0.035f;
+        float cardTop = margin;
+        float cardBottom = heightInfoArea - margin;
+        float cardRadius = widthScreen * 0.025f;
+
+        p.setAntiAlias(true);
+        p.setStyle(Paint.Style.FILL);
+        p.setColor(HUD_CARD);
+        SHAPE.set(margin, cardTop, widthScreen - margin, cardBottom);
+        canvas.drawRoundRect(SHAPE, cardRadius, cardRadius, p);
+
+        p.setStyle(Paint.Style.STROKE);
+        p.setStrokeWidth(Math.max(2f, widthScreen / 420f));
+        p.setColor(HUD_BORDER);
+        canvas.drawRoundRect(SHAPE, cardRadius, cardRadius, p);
+        p.setStyle(Paint.Style.FILL);
+
+        float labelSize = widthScreen / 26f;
+        float valueSize = widthScreen / 15f;
+        float leftX = margin * 2f;
+        float rightX = widthScreen * 0.43f;
+        float labelTop = cardTop + (cardBottom - cardTop) * 0.23f;
+
+        setTextStyle(labelSize, TEXT_SECONDARY, Typeface.NORMAL);
+        canvas.drawText(nextColorText, leftX, labelTop, p);
+
+        float swatchSize = Math.min(widthScreen * 0.14f, (cardBottom - cardTop) * 0.42f);
+        float swatchTop = labelTop + labelSize * 0.65f;
+        setRectColor(AreaForGame.getNextColor());
+        SHAPE.set(leftX, swatchTop, leftX + swatchSize, swatchTop + swatchSize);
+        canvas.drawRoundRect(SHAPE, swatchSize * 0.18f, swatchSize * 0.18f, p);
+
+        setTextStyle(labelSize, TEXT_SECONDARY, Typeface.NORMAL);
+        canvas.drawText(blocksLeftText, rightX, labelTop, p);
+        setTextStyle(valueSize, TEXT_PRIMARY, Typeface.NORMAL);
+        canvas.drawText(blocksLeftNumber, rightX, labelTop + valueSize * 0.95f, p);
+
+        float movesLabelY = cardTop + (cardBottom - cardTop) * 0.70f;
+        setTextStyle(labelSize, TEXT_SECONDARY, Typeface.NORMAL);
+        canvas.drawText(movesDoneText, rightX, movesLabelY, p);
+        setTextStyle(valueSize * 0.78f, TEXT_PRIMARY, Typeface.NORMAL);
+        canvas.drawText(String.valueOf(Information.getMovesDoneValue()),
+                rightX, movesLabelY + valueSize * 0.78f, p);
+    }
+
+    private static void setTextStyle(float size, int color, int style) {
+        p.setStyle(Paint.Style.FILL);
+        p.setTypeface(Typeface.create("sans-serif", style));
+        p.setTextSize(size);
+        p.setColor(color);
     }
 
     private static void drawBlockLeftArea(Canvas canvas) {
@@ -333,6 +382,32 @@ public abstract class Draw extends Context {
     }
 
     private static void drawBackButton(Canvas canvas) {
+        float centerY = (y1BackButton + y2BackButton) / 2f;
+        float buttonHeight = Math.min(widthScreen * 0.13f, (y2BackButton - y1BackButton) * 0.58f);
+        float top = centerY - buttonHeight / 2f;
+        float bottom = centerY + buttonHeight / 2f;
+        float radius = buttonHeight * 0.24f;
+        boolean enabled = numbersOfMovesBack > 0 && MoveBack.isBackwardAllowed();
+
+        SHAPE.set(x1BackButton, top, x2BackButton, bottom);
+        p.setStyle(Paint.Style.FILL);
+        p.setColor(enabled ? HUD_CARD : Color.rgb(14, 22, 30));
+        canvas.drawRoundRect(SHAPE, radius, radius, p);
+
+        p.setStyle(Paint.Style.STROKE);
+        p.setStrokeWidth(Math.max(2f, widthScreen / 420f));
+        p.setColor(enabled ? HUD_BORDER : Color.rgb(28, 40, 50));
+        canvas.drawRoundRect(SHAPE, radius, radius, p);
+
+        String label = "↶  " + moveBackButtonText + "  ·  " + numbersOfMovesBack;
+        setTextStyle(widthScreen / 26f, enabled ? TEXT_PRIMARY : TEXT_MUTED, Typeface.NORMAL);
+        float textX = (widthScreen - p.measureText(label)) / 2f;
+        Paint.FontMetrics metrics = p.getFontMetrics();
+        float textY = centerY - (metrics.ascent + metrics.descent) / 2f;
+        canvas.drawText(label, textX, textY, p);
+    }
+
+    private static void drawBackButtonLegacy(Canvas canvas) {
 
         if (numbersOfMovesBack < 0) {
 //            p.setColor(Color.BLACK);
@@ -371,11 +446,17 @@ public abstract class Draw extends Context {
     }
 
     private static void startLevelSplashScreen(Canvas canvas, double percentDraw) {
+        if (percentCounter >= 100) {
+            percentCounter = 100;
+            Information.setIsGameAreaDrawable(true);
+            return;
+        }
+
         p.setColor(splashScreenGray);
         canvas.drawRect(0, (int) percentDraw, widthScreen, heightScreen, p);
 
         percentCounter++;
-        if (percentCounter == 100) {
+        if (percentCounter >= 100) {
             Information.setIsGameAreaDrawable(true);
         }
 
