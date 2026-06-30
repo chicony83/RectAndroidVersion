@@ -3,6 +3,7 @@ package com.example.rects;
 import com.example.rects.game.config.SettingCurrentGame;
 import com.example.rects.game.config.SettingGame;
 import com.example.rects.game.config.SettingLevels;
+import com.example.rects.ui.menu.GamePauseMenu;
 
 import android.content.res.Resources;
 import android.graphics.Point;
@@ -17,6 +18,7 @@ import android.view.SurfaceView;
 public class GameActivity extends FullscreenActivity {
 
     private long prevRedrawTime;
+    private GamePauseMenu pauseMenu;
 
     public static final String EXTRA_LEVEL = "com.example.rects.extra.LEVEL";
 
@@ -32,6 +34,7 @@ public class GameActivity extends FullscreenActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pauseMenu = new GamePauseMenu(this);
         DrawView drawView = new DrawView(this);
         setContentView(drawView);
 
@@ -95,6 +98,11 @@ public class GameActivity extends FullscreenActivity {
         information.movesDoneValueResetCounter();
         SettingCurrentGame.setGameLoose(false);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        pauseMenu.toggle();
     }
 
     //public void onBackPressed(){

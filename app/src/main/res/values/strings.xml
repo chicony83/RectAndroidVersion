@@ -29,6 +29,14 @@
     <string name="very_hard_level_description">5 colors · little room for error</string>
     <string name="impossible_level">Impossible</string>
     <string name="impossible_level_description">6 colors · maximum density</string>
+    <string name="pause_title">Paused</string>
+    <string name="pause_subtitle">What would you like to do?</string>
+    <string name="new_game">New game</string>
+    <string name="save_game">Save</string>
+    <string name="main_menu">Main menu</string>
+    <string name="light_theme">Light theme</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="back_to_continue">Press Back to continue</string>
 
     <string name="i_need_play">
         I understand everything\nand want to play

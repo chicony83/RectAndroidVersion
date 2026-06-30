@@ -29,6 +29,14 @@
     <string name="very_hard_level_description">5 цветов · мало права на ошибку</string>
     <string name="impossible_level">Невозможно</string>
     <string name="impossible_level_description">6 цветов · максимальная плотность</string>
+    <string name="pause_title">Пауза</string>
+    <string name="pause_subtitle">Что хочешь сделать?</string>
+    <string name="new_game">Новая игра</string>
+    <string name="save_game">Сохранить</string>
+    <string name="main_menu">Главное меню</string>
+    <string name="light_theme">Светлая тема</string>
+    <string name="dark_theme">Тёмная тема</string>
+    <string name="back_to_continue">Нажми «Назад», чтобы продолжить</string>
 
     <string name="i_need_play">
         Я всё понял\nХочу играть
