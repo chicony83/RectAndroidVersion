@@ -169,6 +169,46 @@ public class AreaForGame {
         return nextColor;
     }
 
+    public static int getBackNextColor() {
+        return backNextColor;
+    }
+
+    public static int[][] copyGameArea() {
+        return copyArea(gameArea);
+    }
+
+    public static int[][] copyMoveBackArea() {
+        return copyArea(moveBackArea);
+    }
+
+    public static void restoreSavedState(int[][] savedGameArea, int[][] savedMoveBackArea,
+                                         int savedNextColor, int savedBackNextColor) {
+        if (savedGameArea.length != widthGameArea || savedMoveBackArea.length != widthGameArea) {
+            throw new IllegalArgumentException("Saved game has an invalid width");
+        }
+
+        for (int x = 0; x < widthGameArea; x++) {
+            if (savedGameArea[x].length != heightGameArea ||
+                    savedMoveBackArea[x].length != heightGameArea) {
+                throw new IllegalArgumentException("Saved game has an invalid height");
+            }
+            System.arraycopy(savedGameArea[x], 0, gameArea[x], 0, heightGameArea);
+            System.arraycopy(savedMoveBackArea[x], 0, moveBackArea[x], 0, heightGameArea);
+        }
+
+        nextColor = savedNextColor;
+        backNextColor = savedBackNextColor;
+        CleaningAfterMove.cancelPendingMove();
+    }
+
+    private static int[][] copyArea(int[][] source) {
+        int[][] copy = new int[widthGameArea][heightGameArea];
+        for (int x = 0; x < widthGameArea; x++) {
+            System.arraycopy(source[x], 0, copy[x], 0, heightGameArea);
+        }
+        return copy;
+    }
+
 
     private int randomColorForTargetLine(){
         int rndColForTsrgLine = randomColor();

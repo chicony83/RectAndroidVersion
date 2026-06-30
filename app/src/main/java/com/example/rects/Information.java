@@ -178,6 +178,10 @@ public class Information {
         numbersOfMovesBack--;
     }
 
+    public static void setNumbersOfMovesBack(int value) {
+        numbersOfMovesBack = Math.max(0, value);
+    }
+
     public static void setValuesInformationStrings(
             String nextColorText, String blocksLeftText, String movesDoneText,
             String moveBackButtonText, String manyMovesLeftText, String oneMoveLeftText) {

@@ -3,6 +3,8 @@ package com.example.rects;
 import com.example.rects.game.config.SettingCurrentGame;
 import com.example.rects.game.config.SettingGame;
 import com.example.rects.game.config.SettingLevels;
+import com.example.rects.game.save.GameSaveRepository;
+import com.example.rects.game.save.GameSaveSnapshot;
 import com.example.rects.ui.menu.GamePauseMenu;
 
 import android.content.res.Resources;
@@ -21,6 +23,7 @@ public class GameActivity extends FullscreenActivity {
     private GamePauseMenu pauseMenu;
 
     public static final String EXTRA_LEVEL = "com.example.rects.extra.LEVEL";
+    public static final String EXTRA_LOAD_SAVED_GAME = "com.example.rects.extra.LOAD_SAVED_GAME";
 
     private static final int FRAME_INTERVAL_MS = 16;
     private static final int CLEARING_TIME = 100;
@@ -43,7 +46,12 @@ public class GameActivity extends FullscreenActivity {
 
         //настройка активности
         //настройка уровней
-        numLevel = getIntent().getIntExtra(EXTRA_LEVEL, 3);
+        GameSaveSnapshot savedGame = getIntent().getBooleanExtra(EXTRA_LOAD_SAVED_GAME, false)
+                ? GameSaveRepository.load(this)
+                : null;
+        numLevel = savedGame != null
+                ? savedGame.getLevel()
+                : getIntent().getIntExtra(EXTRA_LEVEL, 3);
         SettingLevels.setCurrentSettingLevel(numLevel);
 
         //вспомогательная строка чтобы узнать что получили из интента
@@ -67,8 +75,12 @@ public class GameActivity extends FullscreenActivity {
 
         areaForGame.newCleanArea();
         areaForGame.newGameLevelValues();
-        areaForGame.newTargetLines();
-        areaForGame.nextColor();
+        if (savedGame == null) {
+            areaForGame.newTargetLines();
+            areaForGame.nextColor();
+        } else {
+            GameSaveRepository.restore(savedGame);
+        }
 
         areaForGame.countHowManyRectanglesToClear();
 

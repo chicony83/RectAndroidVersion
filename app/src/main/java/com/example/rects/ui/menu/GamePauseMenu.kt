@@ -7,8 +7,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import com.example.rects.MainMenuActivity
 import com.example.rects.R
+import com.example.rects.game.save.GameSaveRepository
 
 class GamePauseMenu(private val activity: Activity) {
     private var dialog: Dialog? = null
@@ -49,6 +51,15 @@ class GamePauseMenu(private val activity: Activity) {
             }
             activity.startActivity(mainMenuIntent)
             activity.finish()
+        }
+
+        pauseDialog.findViewById<android.view.View>(R.id.saveGameButton).setOnClickListener {
+            val message = if (GameSaveRepository.save(activity)) {
+                R.string.game_saved
+            } else {
+                R.string.game_save_failed
+            }
+            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
         }
 
         pauseDialog.window?.apply {

@@ -72,11 +72,21 @@
             android:text="@string/start_game" />
 
         <Button
+            android:id="@+id/loadGameButton"
+            style="@style/MenuSecondaryButton"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:enabled="false"
+            android:onClick="onClickLoadGame"
+            android:text="@string/load_game" />
+
+        <Button
             android:id="@+id/startHowToPlayButton"
             style="@style/MenuSecondaryButton"
             android:layout_width="match_parent"
             android:layout_height="54dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="12dp"
             android:onClick="onClickHowToPlay"
             android:text="@string/how_to_play" />
     </LinearLayout>

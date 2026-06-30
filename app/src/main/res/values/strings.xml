@@ -33,6 +33,9 @@
     <string name="pause_subtitle">What would you like to do?</string>
     <string name="new_game">New game</string>
     <string name="save_game">Save</string>
+    <string name="load_game">Load game</string>
+    <string name="game_saved">Game saved</string>
+    <string name="game_save_failed">Could not save the game</string>
     <string name="main_menu">Main menu</string>
     <string name="light_theme">Light theme</string>
     <string name="dark_theme">Dark theme</string>

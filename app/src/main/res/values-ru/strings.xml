@@ -41,4 +41,7 @@
     <string name="i_need_play">
         Я всё понял\nХочу играть
     </string>
+    <string name="load_game">Загрузить игру</string>
+    <string name="game_saved">Игра сохранена</string>
+    <string name="game_save_failed">Не удалось сохранить игру</string>
 </resources>
