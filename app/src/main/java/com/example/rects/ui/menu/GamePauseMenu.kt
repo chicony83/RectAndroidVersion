@@ -2,10 +2,12 @@ package com.example.rects.ui.menu
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
 import android.view.WindowManager
+import com.example.rects.MainMenuActivity
 import com.example.rects.R
 
 class GamePauseMenu(private val activity: Activity) {
@@ -34,6 +36,20 @@ class GamePauseMenu(private val activity: Activity) {
         }
 
         dialog = pauseDialog
+
+        pauseDialog.findViewById<android.view.View>(R.id.newGameButton).setOnClickListener {
+            dismiss()
+            activity.recreate()
+        }
+
+        pauseDialog.findViewById<android.view.View>(R.id.mainMenuButton).setOnClickListener {
+            dismiss()
+            val mainMenuIntent = Intent(activity, MainMenuActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            }
+            activity.startActivity(mainMenuIntent)
+            activity.finish()
+        }
 
         pauseDialog.window?.apply {
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
